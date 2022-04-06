@@ -3,3 +3,4 @@ pygetwindow
 pyautogui
 Pillow
 pywin32
+PyQt5
