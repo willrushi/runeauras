@@ -1,10 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QGraphicsOpacityEffect
-from PyQt5.QtCore import Qt, QSize, QTimer, QSize, QPoint
-from PyQt5.QtGui import QPixmap, QColor, QPainter
+from PyQt5.QtCore import Qt, QSize, QTimer, QSize
+from PyQt5.QtGui import QPixmap
 from PyQt5 import QtWidgets
-
-from PIL.ImageQt import ImageQt
-from PIL import Image
 
 from settings import get_user_buffs
 from buffdetection import find_buff
@@ -29,10 +26,9 @@ class MainWindow(QMainWindow):
 
         self.setAttribute(Qt.WA_TransparentForMouseEvents, True)
         self.setAttribute(Qt.WA_NoChildEventsForParent, True)
-        self.setAttribute(Qt.WA_StyledBackground, True)
-        self.setStyleSheet('background-color: rgba(24, 23, 36, 0.63);')
-
-        self.setWindowOpacity(70)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        #self.setAttribute(Qt.WA_StyledBackground, True)
+        #self.setStyleSheet('background-color: rgba(24, 23, 36, 0.63);')
 
         self.setWindowTitle("RuneAuras")
 
@@ -42,7 +38,7 @@ class MainWindow(QMainWindow):
 
         self.timer = QTimer(self)
         self.timer.setSingleShot(False)
-        self.timer.setInterval(600)
+        self.timer.setInterval(100)
         self.timer.timeout.connect(self.icon_updates)
         self.timer.start()
 
@@ -67,10 +63,10 @@ class MainWindow(QMainWindow):
         self.buffs = get_user_buffs()
 
         for i, buff in enumerate(self.buffs):
-            active = find_buff(0.9, buff["img"])
+            active = find_buff(buff["threshold"], buff["img"])
             buff["label"] = self.icon_generate(buff["img"], i, active)
 
-            print(f"{buff['name']} active: {active}")
+            #print(f"{buff['name']} active: {active}")
 
         self.setGeometry(2233, 734, self.iconWidth * len(self.buffs), self.iconWidth)
         self.show()
@@ -92,7 +88,7 @@ class MainWindow(QMainWindow):
 
     def icon_updates(self):
         for buff in self.buffs:
-            active = find_buff(0.9, buff["img"])
+            active = find_buff(buff["threshold"], buff["img"])
             print(f"{buff['name']} active: {active}")
             self.icon_update(buff["label"], buff["img"], active)
 

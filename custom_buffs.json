@@ -1,6 +1,17 @@
 [
     {
         "name": "turmoil",
-        "img": "img/turmoil-cropped.png"    
+        "img": "img/turmoil.png",
+        "threshold": 0.9
+    },
+    {
+        "name": "grimoire",
+        "img": "img/grimoire.png",
+        "threshold": 0.51
+    },
+    {
+        "name": "kalg",
+        "img": "img/kalg.png",
+        "threshold": 0.9
     }
 ]
